@@ -1,0 +1,39 @@
+var angle = 0;
+var slider;
+
+function setup() {
+  createCanvas(400, 400);
+  
+  slider = createSlider(0, PI / 2, PI / 4, 0.01);
+  
+}
+
+function draw() {
+  noLoop();
+  background(51);
+  angle = slider.value();  
+  stroke(255);
+  
+  
+  constructRRT();
+}
+
+function constructRRT(){
+
+  var K = 100;
+  var range = 10;
+  
+  var new_width;
+  var new_height;
+  
+  translate(height/2, width/2);
+  point(0,0)
+  
+  for(K = 1; K < 10; K++){
+    new_width = (width * Math.random()) - (width/2);
+    new_height = (height * Math.random()) - (height/2);
+    
+    stroke(255);
+    point(new_width, new_height);
+  }
+}
