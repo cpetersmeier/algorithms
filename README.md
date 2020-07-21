@@ -1,1 +1,1 @@
-# RRT_visual
+# Algorithms
