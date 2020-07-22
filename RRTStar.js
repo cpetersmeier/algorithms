@@ -1,4 +1,4 @@
-class RRT extends Graph{
+class RRTStar extends Graph{
 
   constructor(){
     super();
@@ -36,7 +36,7 @@ class RRT extends Graph{
     this.addEdge(this.q_goal, nearestVertexToQGoal);
   }
 
-  new_conf(q_near, q_rand, delta_q){
+  new_conf(q_near, q_rand, delta_q, distance){
     let x,y;
 
     // move incremental distance delta_q from q_near in direction of q_rand
@@ -52,6 +52,10 @@ class RRT extends Graph{
     let x_new = (delta_q * x_e) + q_near.getX();
     let y_new = (delta_q * y_e) + q_near.getY();
 
-    return new Configuration(x_new, y_new);
+    // find all nodes within a circle
+
+    var candidates = this.nearestVerticesAfterDistance(new Configuration(x_new, y_new), distance);
+    
+
   }
 }

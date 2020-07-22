@@ -127,16 +127,44 @@ class Graph{
             }
         }
         
-        console.log("distances: ", distanceArray);
+        // console.log("distances: ", distanceArray);
 
         // only return the values that
 
         candidates = graphArray.slice(0, N)
         
-        console.log("candidates: ", candidates);
+        // console.log("candidates: ", candidates);
 
 
         return candidates;
+  }
+
+  nearestVerticesAfterDistance(configuration, distance){
+        let candidates = [];
+
+        // put values of graph into array
+
+        let graphArray =  [];
+        let distanceArray =  [];
+
+        for(let [key, values] of this.graph){
+            if((key != configuration) && (this.getDistance(key, configuration) > distance)){
+                graphArray.push(key);
+                distanceArray.push(this.getDistance(configuration, key));
+            }
+        }
+
+        // sort the values for distance ascendingly
+
+        // only return the values that
+
+        candidates = graphArray;
+        
+        // console.log("candidates: ", candidates);
+
+
+        return candidates;
+
   }
 
 
@@ -148,16 +176,49 @@ class Graph{
           first.getY() - second.getY(), 2));
   }
 
-  show(){
+  show(vertices = true, edges = true, start = true, goal = true){
       for (let [key, value] of this.graph){
-        for(let i = 0; i < value.getAdjecents().length; i++){
-          this.printEdge(key.x, key.y, value.getAdjecents()[i].getX(), value.getAdjecents()[i].getY());
+        if(edges){
+          for(let i = 0; i < value.getAdjecents().length; i++){
+            this.printEdge(key.x, key.y, value.getAdjecents()[i].getX(), value.getAdjecents()[i].getY());
+          }
         }
-          this.printPoint(key.x, key.y);
+          if(vertices){
+            this.printPoint(key.x, key.y);
+          }
       }
 
       // print init point
-      this.printInitPoint(this.q_init.getX(), this.q_init.getY());
+      if(start){
+        this.printInitPoint(this.q_init.getX(), this.q_init.getY());
+      }
+      if(goal){
+        this.printGoalPoint(this.q_goal.getX(), this.q_goal.getY());
+      }
+
+  }
+
+  getCost(configuration){
+    // 1. search a path to the start node
+    let path = [];
+
+    // 2. add up all the costs
+    let cost = 0;
+
+    let i = 0;
+    for(i = 0; i < (path.length - 1); i++){
+      cost = cost + this.getDistance(path[i], path[i+1]);
+    }
+
+    return cost;
+  }
+
+  AStarSearch(){
+    let path = [];
+    // TODO: Implement AStar Search
+
+
+    return path;
   }
 
   *test(){
@@ -185,8 +246,15 @@ class Graph{
   printInitPoint(x,y){
     fill(0, 180, 255);
     noStroke();
-    ellipse(x,y, 7, 7);
+    ellipse(x,y, 21, 21);
   }
+
+  printGoalPoint(x,y){
+    fill(0, 255, 200);
+    noStroke();
+    ellipse(x,y, 21, 21);
+  }
+
 
   printEdge(s_x, s_y, d_x, d_y){
     stroke(255, 255, 255);
