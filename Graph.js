@@ -213,10 +213,40 @@ class Graph{
     return cost;
   }
 
+  DijkstraSearch(start, goal){
+    let path = [];
+
+    let localCopy = new Map();
+
+    // Copy the graph to localCopy variable
+    // Add some additional information about the costs function (eucl. distance)
+    for(let [key, value] of this.graph){
+      let distance = 999999;
+      let previous = null;
+
+      let adjacents = [];
+      let adjacentCost = [];
+      adjacents = value.getAdjecents();
+
+      let i = 0;
+      for(i = 0; i < adjacents.length; i++){
+        adjacentCost.push(this.getDistance(key, adjacents[i]));
+      }
+
+      localCopy.set(key, [value, adjacentCost, distance, previous]);
+    }
+
+    // initialize priority queu
+
+    console.log(localCopy);
+    
+
+    return [path, distance];
+  }
+
   AStarSearch(){
     let path = [];
     // TODO: Implement AStar Search
-
 
     return path;
   }

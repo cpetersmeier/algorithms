@@ -54,8 +54,32 @@ class RRTStar extends Graph{
 
     // find all nodes within a circle
 
-    var candidates = this.nearestVerticesAfterDistance(new Configuration(x_new, y_new), distance);
-    
+    newConfig = new Configuration(x_new, y_new);
 
+    var candidates = this.nearestVerticesAfterDistance(newConfig, distance);
+
+
+  }
+
+  smallestTotalCost(newConfig, candidates, goal){
+
+    let i = 0;
+    let newIndex;
+    let newDistance;
+    let newPath;
+    for(i = 0; i < candidates.length; i++){
+      // the cost is defined as the euclidian distance
+      [tmpPath, tmpDistance] = this.DijkstraSearch(candidates[i], this.q_init);
+      
+      // still need to go from q_new to candidate node
+      tmpDistance = tmpDistance + this.getDistance(newConfig, candidates[i]);
+      tmpPath.push(newConfig); // maybe this has to be at the other end of the array.
+
+      // Update smallest distance and path  
+      if(tmpDistance < newDistance){
+        newPath = tmpPath;
+        newDistance = tmpDistance
+      }
+    }
   }
 }
